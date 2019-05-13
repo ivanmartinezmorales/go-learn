@@ -1,3 +1,7 @@
+/**
+ * Testing our Greeting function.
+ */
+
 package main
 
 import "testing"
