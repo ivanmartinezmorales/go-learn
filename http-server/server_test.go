@@ -10,10 +10,10 @@ import (
 func TestGETPlayers(t *testing.T) {
 	store := StubPlayerStore{
 		map[string]int{
+			"Zack": -1,
+			"Ivan": 1,
 			"Pepe": 20,
 			"Phil": 10,
-			"Ivan": 1,
-			"Zack": -1,
 		},
 	}
 	server := &PlayerServer{&store}
@@ -81,4 +81,9 @@ func assertStatus(t *testing.T, got, want int) {
 	if got != want {
 		t.Errorf("The response body is wrong, got %d, want %d", got, want)
 	}
+}
+
+func newPostWinRequest(name string) *http.Request {
+	req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("/players/%s", name), nil)
+	return req
 }
