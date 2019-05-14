@@ -25,6 +25,7 @@ func (s *StubPlayerStore) RecordWin(name string) {
 // PlayerStore - an Interface with all the methods of PlayerScore
 type PlayerStore interface {
 	GetPlayerScore(name string) int
+	RecordWin(name string)
 }
 
 // PlayerServer - a server to house our player

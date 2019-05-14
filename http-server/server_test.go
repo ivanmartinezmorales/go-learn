@@ -7,6 +7,26 @@ import (
 	"testing"
 )
 
+func TestStoreWins(t *testing.T) {
+	store := StubPlayerStore{
+		map[string]int{},
+		nil,
+	}
+	server := &PlayerServer{&store}
+
+	t.Run("It returns accepted on POST", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodPost, "/players/Pepper", nil)
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+		assertStatus(t, response.Code, http.StatusAccepted)
+
+		if len(store.winCalls) != 1 {
+			t.Errorf("Got %d calls to RecordWin, want %d", len(store.winCalls), 1)
+		}
+	})
+}
+
 func TestGETPlayers(t *testing.T) {
 	store := StubPlayerStore{
 		map[string]int{
@@ -15,6 +35,7 @@ func TestGETPlayers(t *testing.T) {
 			"Pepe": 20,
 			"Phil": 10,
 		},
+		nil,
 	}
 	server := &PlayerServer{&store}
 
